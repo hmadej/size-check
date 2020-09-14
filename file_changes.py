@@ -35,7 +35,7 @@ def get_directory_size(path):
 
 def get_directory_sizes(source_dir, list_dir):
     return {
-        fp: get_directory_size(f'{source_dir}/{fp}')
+        fp: get_directory_size(f'../{source_dir}/{fp}')
         for fp in list_dir
     }
 
