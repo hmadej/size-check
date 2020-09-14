@@ -19,9 +19,6 @@ def get_directory_size(path):
                 capture_output=True
             ).stdout, 'utf-8')
 
-            print(stdout)
-            for line in stdout.split('\n'):
-                print(PATTERN.match(line))
             return {
                 matches.group(3): int(matches.group(1))
                 for line in stdout.split('\n')
