@@ -3,7 +3,10 @@ import subprocess
 import re
 from markdown import *
 
-PATTERN = re.compile('(\d{1,8})[^b|^m]*(master|branch)\/(.*)')
+
+BRANCH_name = os.environ['branch'] if 'branch' in os.environ else 'branch'
+MASTER_name = os.environ['main'] if 'main' in os.environ else 'master'
+PATTERN = re.compile(f'(\d{1,8})[^{BRANCH_name[0]}|^{MASTER_name[0]}]*({BRANCH_name}|{MASTER_name})\/(.*)')
 CLI_ARGS = ['du', '-k', '-d', '1']
 # group 1 is size as an integer, group 3 is filepath
 
@@ -40,9 +43,6 @@ def get_directory_sizes(source_dir, list_dir):
 
 
 if __name__ == '__main__':
-    branch_name = os.environ['branch'] if 'branch' in os.environ else 'branch'
-    master_name = os.environ['main'] if 'main' in os.environ else 'master'
-    master_sizes = get_directory_sizes(master_name, sys.argv[1:])
-    branch_sizes = get_directory_sizes(branch_name, sys.argv[1:])
+    master_sizes = get_directory_sizes(MASTER_name, sys.argv[1:])
+    branch_sizes = get_directory_sizes(BRANCH_name, sys.argv[1:])
     print(make_table(master_sizes, branch_sizes))
-    print(os.environ)
