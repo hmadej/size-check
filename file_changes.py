@@ -55,7 +55,10 @@ if __name__ == '__main__':
     r = http.request(
         'POST',
         url,
-        headers={"Authorization": f'token {ACCESS_TOKEN}'},
+        headers={
+            "Authorization": f'token {ACCESS_TOKEN}',
+            "User-Agent": "Mozilla",
+        },
         body=table
     )
     print(r.status)
