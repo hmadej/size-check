@@ -58,4 +58,5 @@ if __name__ == '__main__':
         headers={"Authorization": f'token {ACCESS_TOKEN}'},
         body=table
     )
-    print(r)
+    print(r.status)
+    print(r.data)
