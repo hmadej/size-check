@@ -58,7 +58,7 @@ if __name__ == '__main__':
             "Authorization": f'token {ACCESS_TOKEN}',
             "User-Agent": "Mozilla",
         },
-        body=table
+        body=json.dumps(table).encode('utf-8')
     )
     print(url)
     print(r.status)
