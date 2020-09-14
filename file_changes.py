@@ -1,7 +1,10 @@
 import os, sys
 import subprocess
 import re
+import json
+import urllib3
 from markdown import *
+
 
 PATTERN = re.compile('(\d{1,8}).*(branch|main)\/(.*)')
 CLI_ARGS = ['du', '-k', '-d', '1']
@@ -18,7 +21,6 @@ def get_directory_size(path):
                 [*CLI_ARGS, path],
                 capture_output=True
             ).stdout, 'utf-8')
-
             return {
                 matches.group(3): int(matches.group(1))
                 for line in stdout.split('\n')
@@ -42,4 +44,19 @@ def get_directory_sizes(source_dir, list_dir):
 if __name__ == '__main__':
     master_sizes = get_directory_sizes('main', sys.argv[1:])
     branch_sizes = get_directory_sizes('branch', sys.argv[1:])
-    print(make_table(master_sizes, branch_sizes))
+    table = make_table(master_sizes, branch_sizes)
+    subprocess.run()
+    
+    ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
+    REPO_OWNER = os.environ['REPO_OWNER']
+    REPO_NAME = os.environ['REPO_NAME']
+    PR_NUMBER = os.environ['PR_NUMBER']
+    url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues/{PR_NUMBER}/comments'
+    http = urllib3.PoolManager()
+    r = http.request(
+        'POST',
+        url,
+        headers={"Authorization": f'token {ACCESS_TOKEN}'},
+        body=table
+    )
+    print(r)
