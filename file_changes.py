@@ -61,5 +61,6 @@ if __name__ == '__main__':
         },
         body=table
     )
+    print(url)
     print(r.status)
     print(r.data)
