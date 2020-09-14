@@ -41,7 +41,8 @@ def get_directory_sizes(source_dir, list_dir):
 
 if __name__ == '__main__':
     branch_name = os.environ['branch'] if 'branch' in os.environ else 'branch'
-    master_name = os.environ['main'] if 'master' in os.environ else 'master'
+    master_name = os.environ['main'] if 'main' in os.environ else 'master'
     master_sizes = get_directory_sizes(master_name, sys.argv[1:])
     branch_sizes = get_directory_sizes(branch_name, sys.argv[1:])
     print(make_table(master_sizes, branch_sizes))
+    print(os.environ)
