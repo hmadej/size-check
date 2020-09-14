@@ -60,6 +60,8 @@ if __name__ == '__main__':
         },
         body=json.dumps(table).encode('utf-8')
     )
+    print(master_sizes)
+    print(branch_sizes)
     print(url)
     print(r.status)
     print(r.data)
