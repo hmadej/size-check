@@ -11,10 +11,10 @@ def format_diff(master, branch):
 def format_size(number):
     if number == 0:
         return '-'
-    if number // 1024 == 0:
+    if abs(number) // 1024 == 0:
         return f'{number}kB'
     else:
-        return f'{number/1024:.1f}MB'
+        return f'{number//1024:.1f}MB'
 
 
 def make_table(master, branch):

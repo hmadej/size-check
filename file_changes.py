@@ -3,9 +3,9 @@ import subprocess
 import re
 from markdown import *
 
+PATTERN = re.compile('(\d{1,8})[^b|^m]*(master|branch)\/(.*)')
 CLI_ARGS = ['du', '-k', '-d', '1']
 # group 1 is size as an integer, group 3 is filepath
-PATTERN = re.compile('(\d{1,8})\s*(master|branch)\/(.*)')
 
 '''
 Run cli tool DU to get directory size information
@@ -18,7 +18,6 @@ def get_directory_size(path):
                 [*CLI_ARGS, path],
                 capture_output=True
             ).stdout, 'utf-8')
-
 
             return {
                 matches.group(3): int(matches.group(1))
@@ -46,4 +45,3 @@ if __name__ == '__main__':
     master_sizes = get_directory_sizes(master_name, sys.argv[1:])
     branch_sizes = get_directory_sizes(branch_name, sys.argv[1:])
     print(make_table(master_sizes, branch_sizes))
-    
