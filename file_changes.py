@@ -44,7 +44,7 @@ def get_directory_sizes(source_dir, list_dir):
 if __name__ == '__main__':
     master_sizes = get_directory_sizes('main', sys.argv[1:])
     branch_sizes = get_directory_sizes('branch', sys.argv[1:])
-    table = make_table(master_sizes, branch_sizes)
+    table = {'body': make_table(master_sizes, branch_sizes)}
     
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
     REPO_NAME = os.environ['REPO_NAME']
