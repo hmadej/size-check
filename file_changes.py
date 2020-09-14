@@ -47,10 +47,9 @@ if __name__ == '__main__':
     table = make_table(master_sizes, branch_sizes)
     
     ACCESS_TOKEN = os.environ['ACCESS_TOKEN']
-    REPO_OWNER = os.environ['REPO_OWNER']
     REPO_NAME = os.environ['REPO_NAME']
     PR_NUMBER = os.environ['PR_NUMBER']
-    url = f'https://api.github.com/repos/{REPO_OWNER}/{REPO_NAME}/issues/{PR_NUMBER}/comments'
+    url = f'https://api.github.com/repos/{REPO_NAME}/issues/{PR_NUMBER}/comments'
     http = urllib3.PoolManager()
     r = http.request(
         'POST',
