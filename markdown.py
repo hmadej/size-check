@@ -21,21 +21,21 @@ def format_size(size):
 
 
 def make_table(master, branch):
-    table = ''
+    table = '<details>\n\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
     for key, value in master.items():
-        if type(value) is dict:
-            table += '<details>\n\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
-            table += make_table(value, branch[key])
+        if key in branch:
+            table += table_row(key, value, branch[key])
         else:
-            if key in branch:
-                table += table_row(key, value, branch[key])
-            else:
-                table += table_row(key, value, 0)
+            table += table_row(key, value, 0)
     if (keys := set(branch) - set(master)):
         for key in keys:
             table += table_row(key, 0, branch[key])
     return table + '\n\n</details>\n'
 
+
+def make_tables(master, branch):
+    tables = [make_table(value, branch[key]) for key, value in master.items()]
+    return '\n'.join(tables)
 
 def table_row(key, v1, v2):
     return f'| {key} | {format_size(v1)} | {format_size(v2)} | {format_diff(v1, v2)} |\n'
