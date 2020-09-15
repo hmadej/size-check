@@ -1,4 +1,5 @@
 from markdown import make_table
+from file_changes import get_directory_sizes
 import urllib3
 from json import dumps
 import sys, os
