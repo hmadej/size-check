@@ -31,7 +31,7 @@ def make_table(title, master, branch):
         for key in keys:
             table += table_row(key, 0, branch[key])
 
-    header = f'<details>\n<summary>\n{key}\n</summary>\n\n'
+    header = f'<details>\n<summary>\n{title}\n</summary>\n\n'
     table_head = '|   | master | branch | change |\n| --- | --- | --- | --- |\n'
     return f'{header}{table_head}{table}\n\n</details>\n'
 
