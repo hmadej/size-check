@@ -1,5 +1,5 @@
 
-TOLERANCE = 4 # size in kb
+TOLERANCE = 0 # size in kb
 
 
 def format_diff(master, branch):
@@ -22,16 +22,22 @@ def format_size(size):
 
 def make_table(title, master, branch):
     table = ''
+    change = False
     for key, value in master.items():
         if key in branch:
+            if (master - branch) > 0:
+                change = True
             table += table_row(key, value, branch[key])
         else:
+            change = True
             table += table_row(key, value, 0)
     if (keys := set(branch) - set(master)):
+        change = True
         for key in keys:
             table += table_row(key, 0, branch[key])
-    
-    header = f'<details>\n<summary>\n{key}\n</summary>\n\n'
+
+    summary = 'Change Detect' if change else ''
+    header = f'<details>\n<summary>\n{key} {summary}\n</summary>\n\n'
     table_head = '|   | master | branch | change |\n| --- | --- | --- | --- |\n'
     return f'{header}{table_head}{table}\n\n</details>\n'
 
