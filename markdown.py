@@ -1,8 +1,8 @@
 
 def format_diff(master, branch):
-    if master == branch:
+    if -4 < (master - branch) < 4:
         return ':heavy_check_mark:'
-    elif master < branch - 4:
+    elif master < branch:
         return f':warning: +{format_size(branch - master)}'
     else:
         return f':white_check_mark: {format_size(branch - master)}'
