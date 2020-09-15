@@ -4,8 +4,7 @@ import re
 
 
 PATTERN = re.compile('(\d{1,8}).*(branch|main)\/(.*)')
-DEPTH = os.environ['DEPTH'] if 'DEPTH' in os.environ else '1'
-CLI_ARGS = ['du', '-k', '-d', DEPTH]
+CLI_ARGS = ['du', '-k', '-d', '1']
 # group 1 is size as an integer, group 3 is filepath
 
 '''
