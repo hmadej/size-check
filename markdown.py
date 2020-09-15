@@ -25,8 +25,7 @@ def make_table(title, master, branch):
     change = False
     for key, value in master.items():
         if key in branch:
-            if (master - branch) > 0:
-                change = True
+            change = (value - branch[key]) > 0
             table += table_row(key, value, branch[key])
         else:
             change = True
