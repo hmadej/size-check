@@ -1,6 +1,9 @@
 
+TOLERANCE = 4 # size in kb
+
+
 def format_diff(master, branch):
-    if -4 <= (master - branch) <= 4:
+    if -TOLERANCE <= (master - branch) <= TOLERANCE:
         return ':heavy_check_mark:'
     elif master < branch:
         return f':warning: +{format_size(branch - master)}'
@@ -8,20 +11,20 @@ def format_diff(master, branch):
         return f':white_check_mark: {format_size(branch - master)}'
 
 
-def format_size(number):
-    if number == 0:
+def format_size(size):
+    if size == 0:
         return '-'
-    if abs(number) // 1024 == 0:
-        return f'{number}kB'
+    if abs(size) // 1024 == 0:
+        return f'{size}kB'
     else:
-        return f'{number//1024:.1f}MB'
+        return f'{size//1024:.1f}MB'
 
 
 def make_table(master, branch):
     table = ''
     for key, value in master.items():
         if type(value) is dict:
-            table += '|   | master | branch | change |\n| --- | --- | --- | --- |\n'
+            table += '<details>\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
             table += make_table(value, branch[key])
         else:
             if key in branch:
@@ -31,7 +34,7 @@ def make_table(master, branch):
     if (keys := set(branch) - set(master)):
         for key in keys:
             table += table_row(key, 0, branch[key])
-    return table + '\n'
+    return table + '\n</details>\n'
 
 
 def table_row(key, v1, v2):
