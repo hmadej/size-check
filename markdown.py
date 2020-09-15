@@ -24,7 +24,7 @@ def make_table(master, branch):
     table = ''
     for key, value in master.items():
         if type(value) is dict:
-            table += '<details>\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
+            table += '<details>\n\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
             table += make_table(value, branch[key])
         else:
             if key in branch:
@@ -34,7 +34,7 @@ def make_table(master, branch):
     if (keys := set(branch) - set(master)):
         for key in keys:
             table += table_row(key, 0, branch[key])
-    return table + '\n</details>\n'
+    return table + '\n\n</details>\n'
 
 
 def table_row(key, v1, v2):
