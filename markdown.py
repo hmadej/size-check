@@ -20,8 +20,8 @@ def format_size(size):
         return f'{size//1024:.1f}MB'
 
 
-def make_table(master, branch):
-    table = '<details>\n\n|   | master | branch | change |\n| --- | --- | --- | --- |\n'
+def make_table(title, master, branch):
+    table = ''
     for key, value in master.items():
         if key in branch:
             table += table_row(key, value, branch[key])
@@ -30,11 +30,14 @@ def make_table(master, branch):
     if (keys := set(branch) - set(master)):
         for key in keys:
             table += table_row(key, 0, branch[key])
-    return table + '\n\n</details>\n'
+    
+    header = f'<details>\n<summary>\n{key}\n</summary>\n\n'
+    table_head = '|   | master | branch | change |\n| --- | --- | --- | --- |\n'
+    return f'{header}{table_head}{table}\n\n</details>\n'
 
 
 def make_tables(master, branch):
-    tables = [make_table(value, branch[key]) for key, value in master.items()]
+    tables = [make_table(key, value, branch[key]) for key, value in master.items()]
     return '\n'.join(tables)
 
 def table_row(key, v1, v2):
